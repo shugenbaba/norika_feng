@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冯雨薇 - 古典与爵士钢琴演奏家</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #8e44ad;
+            --accent-color: #d35400;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 0 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 100% 100%;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .name {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 0 auto 20px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-image::after {
+            content: "照片";
+            color: #888;
+        }
+        
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            padding: 20px 0;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 10px 20px;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--accent-color);
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        /* Hide sections by default */
+        .content-section {
+            display: none;
+        }
+        
+        /* Show active section */
+        .content-section.active {
+            display: block;
+        }
+        
+        section:nth-child(even) {
+            background-color: white;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        
+        .bio-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.1rem;
+        }
+        
+        .bio-content p {
+            margin-bottom: 20px;
+        }
+        
+        .bio-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .education-timeline, .performance-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline-item, .performance-item {
+            position: relative;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            left: -8px;
+            top: 30px;
+        }
+        
+        .year {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+        
+        .institution {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: var(--text-light);
+        }
+        
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .performance-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .performance-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-image {
+            height: 200px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .teaching-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .teaching-content p {
+            margin-bottom: 20px;
+        }
+        
+        .student-achievements {
+            margin-top: 30px;
+        }
+        
+        .student-achievements h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .achievement-list {
+            list-style-position: inside;
+            margin-bottom: 20px;
+        }
+        
+        .achievement-list li {
+            margin-bottom: 10px;
+        }
+        
+        .compositions {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .composition-category {
+            margin-bottom: 30px;
+        }
+        
+        .composition-category h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .composition-list {
+            list-style-position: inside;
+        }
+        
+        .composition-list li {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .social-links a:hover {
+            opacity: 1;
+        }
+        
+        .email-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .email-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2.5rem;
+            }
+            
+            .title {
+                font-size: 1.2rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                padding: 10px 0;
+            }
+            
+            .timeline-item::before {
+                display: none;
+            }
+            
+            .performance-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="profile-image"></div>
+            <h1 class="name">冯雨薇</h1>
+            <p class="title">青年古典钢琴、爵士钢琴演奏家、作曲家、教育家</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container nav-container">
+            <ul>
+                <li><a href="#about" class="nav-link active" data-section="about">个人简介</a></li>
+                <li><a href="#education" class="nav-link" data-section="education">教育背景</a></li>
+                <li><a href="#performances" class="nav-link" data-section="performances">演出经历</a></li>
+                <li><a href="#teaching" class="nav-link" data-section="teaching">教学经历</a></li>
+                <li><a href="#compositions" class="nav-link" data-section="compositions">原创作品</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <section id="about" class="content-section active">
+        <div class="container">
+            <h2 class="section-title">个人简介</h2>
+            <div class="bio-content">
+                <p>冯雨薇，青年古典钢琴、爵士钢琴演奏家、作曲家、教育家。上海戏剧学院音乐表演专业钢琴教师，JZ School特聘爵士钢琴教师，曾任上海音乐学院社教处钢琴教师。</p>
+                <p>作为中国新生代爵士女钢琴手，年轻的冯雨薇拥有扎实的古典钢琴功底，自幼年习琴时便非常喜爱拉威尔、德彪西、斯科里亚宾、拉赫马尼诺夫等印象派、浪漫派作曲家的作品，在接触爵士乐后，更是对其沉迷并受到很多大师的音乐影响，如：Thelonious Monk、Oscar Peterson、Keith Jarrett、Chick Corea、Fred Hersch等。在这些音乐家的影响下，她对自己的演奏也有了新的理解。</p>
+                <p>冯雨薇的演奏风格灵动多变、富有想象力，时而如同黑白键上的精灵一般自在跳跃，曾被爵士乐大师Stefan Karlsson称赞"极具天赋并有优秀的音乐性以及技巧性"，被世界音乐大师谭盾称赞"具有灵性的演奏"，是一位不可多得的跨越古典与爵士的钢琴演奏者。</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="education" class="content-section">
+        <div class="container">
+            <h2 class="section-title">教育背景</h2>
+            <div class="education-timeline">
+                <div class="timeline-item">
+                    <div class="year">2007 - 至今</div>
+                    <div class="institution">上海音乐学院</div>
+                    <div class="description">爵士钢琴专业，师从贺乐教授，直至研究生毕业。后多次出国游学，在美国伯克利音乐学院、新英格兰音乐学院，以及日本东京音乐学院进行文化交流，并得到多位世界级音乐大师如John Escreet、Stefan Karlsson、David Braid等指点。</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">2007 - 至今</div>
+                    <div class="institution">天津音乐学院</div>
+                    <div class="description">钢琴系</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">2001 - 2007</div>
+                    <div class="institution">天津音乐学院附中</div>
+                    <div class="description">主修古典钢琴专业，师从谢元教授与杨玲教授。曾荣获第十届"星海杯"全国钢琴比赛专业一组天津赛区第一名，并曾得到刘诗昆、蔡崇立等名师指点。</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="year">四岁</div>
+                    <div class="institution">开始习琴</div>
+                    <div class="description">冯雨薇四岁起便开始习琴，为其之后的音乐生涯奠定了坚实的基础。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="performances" class="content-section">
+        <div class="container">
+            <h2 class="section-title">演出经历</h2>
+            <div class="performance-list">
+                <div class="timeline-item">
+                    <div class="description">
+                        <p>作为一个演奏家，冯雨薇一直活跃于各大舞台上。曾受音乐大师谭盾邀请，参演"水中爵士"音乐会；受邀与钢琴大师石叔诚先生于上海交响乐团音乐厅同台演绎其改编版世界经典名曲；应第四节进博会与凯迪拉克上海音乐厅邀请，于进博会新闻中心举办音乐会；曾在贺绿汀音乐厅举办"iJazz"冯雨薇爵士钢琴专场音乐会，杭州西湖花朵音乐节举办音乐会，受到观众好评；受邀参演广州爵士节、深圳鼓手节音乐会；受邀赴广州参演腾讯举办的"爵士起来"系列爵士音乐会；担任世界著名浸入式戏剧《Sleep no more(不眠之夜)》常任演奏艺术家；受邀参演JZ Festival系列演出；多次在东方艺术中心、林肯爵士音乐中心、Blue Note音乐中心举办个人音乐会等。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="performance-grid">
+                <div class="performance-card">
+                    <div class="card-image">演出照片</div>
+                    <div class="card-content">
+                        <h3 class="card-title">"水中爵士"音乐会</h3>
+                        <p>受音乐大师谭盾邀请参演</p>
+                    </div>
+                </div>
+                <div class="performance-card">
+                    <div class="card-image">演出照片</div>
+                    <div class="card-content">
+                        <h3 class="card-title">上海交响乐团音乐厅</h3>
+                        <p>与钢琴大师石叔诚先生同台演绎世界经典名曲</p>
+                    </div>
+                </div>
+                <div class="performance-card">
+                    <div class="card-image">演出照片</div>
+                    <div class="card-content">
+                        <h3 class="card-title">进博会音乐会</h3>
+                        <p>应第四节进博会与凯迪拉克上海音乐厅邀请举办</p>
+                    </div>
+                </div>
+                <div class="performance-card">
+                    <div class="card-image">演出照片</div>
+                    <div class="card-content">
+                        <h3 class="card-title">"iJazz"爵士钢琴专场音乐会</h3>
+                        <p>贺绿汀音乐厅</p>
+                    </div>
+                </div>
+                <div class="performance-card">
+                    <div class="card-image">演出照片</div>
+                    <div class="card-content">
+                        <h3 class="card-title">《Sleep no more》</h3>
+                        <p>世界著名浸入式戏剧常任演奏艺术家</p>
+                    </div>
+                </div>
+                <div class="performance-card">
+                    <div class="card-image">演出照片</div>
+                    <div class="card-content">
+                        <h3 class="card-title">JZ Festival系列演出</h3>
+                        <p>多次受邀参演</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="teaching" class="content-section">
+        <div class="container">
+            <h2 class="section-title">教学经历</h2>
+            <div class="teaching-content">
+                <p>多年来，在钻研演奏的同时，冯雨薇也致力于钢琴教育。从基础教学至专业领域，积累了丰富的经验，并拥有较为有特色的钢琴教学方法。在培养及倡导少儿钢琴教学方面，从基础的英皇考级开始，重点培养孩子的音乐创造力、感知力与音乐艺术的结合，倡导孩子对音乐的独立创作，让孩子在学习音乐的同时更好的养成独立思考、独立学习的习惯。</p>
+                
+                <p>其培养出多名学生考入国内外音乐学府如东京音乐学院、洛杉矶MI音乐学院、伯克利音乐学院、上海音乐学院、上海戏剧学院、天津音乐学院等。</p>
+                
+                <div class="student-achievements">
+                    <h3>学生获奖经历</h3>
+                    <ul class="achievement-list">
+                        <li>第27届肖邦国际少年儿童钢琴比赛公开组上海赛区第一名、中国赛区第六名</li>
+                        <li>第20届香港--亚洲钢琴公开赛五项全能奖总决赛第二名</li>
+                        <li>第四届新加坡国际钢琴比赛总决赛少年B组第五名、即兴演奏组第一名</li>
+                        <li>第三届YAMAHA全国键盘比赛总决赛即兴组第一、二、三名、爵士演奏组第二名</li>
+                        <li>第六届KAWAI亚洲钢琴大赛少年组第一名</li>
+                        <li>第七届"长江之声"钢琴大赛少年组第一名等</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="compositions" class="content-section">
+        <div class="container">
+            <h2 class="section-title">原创作品与教材</h2>
+            <div class="compositions">
+                <div class="composition-category">
+                    <h3>编撰教材</h3>
+                    <ul class="composition-list">
+                        <li>上海音乐学院出版社《"绝妙黑白"爵士钢琴乐曲选集》，任编委</li>
+                        <li>复旦大学出版社《幼儿歌曲钢琴即兴伴奏法》，任副主编及编委</li>
+                        <li>复旦大学出版社《乐理 视唱 练耳》，任副主编及编委</li>
+                        <li>复旦大学出版社《钢琴基础》，全国学前教育专业"十二五"规划教材，任副主编及编委</li>
+                    </ul>
+                </div>
+                
+                <div class="composition-category">
+                    <h3>爵士原创作品</h3>
+                    <ul class="composition-list">
+                        <li>《Walking back》，2011年5月在贺绿汀音乐厅首演</li>
+                        <li>《Magic 6/4》，2017年12月在贺绿汀音乐厅首演</li>
+                        <li>《How to say》，2017年12月在贺绿汀音乐厅首演</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>© 2025 冯雨薇 - 古典与爵士钢琴演奏家</p>
+                <p>邮箱：<a href="mailto:norika007@163.com" class="email-link">norika007@163.com</a></p>
+                <div class="social-links">
+                    <a href="#">微信</a>
+                    <a href="#">微博</a>
+                    <a href="#">抖音</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation tabs functionality
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and sections
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    // Smooth scroll to section
+                    window.scrollTo({
+                        top: document.querySelector('nav').offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
